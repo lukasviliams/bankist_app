@@ -61,9 +61,13 @@ const inputLoanAmount = document.querySelector(".form__input--loan-amount");
 const inputCloseUsername = document.querySelector(".form__input--user");
 const inputClosePin = document.querySelector(".form__input--pin");
 
-const displayMovements = function (movements) {
+// display
+const displayMovements = function (movements, sort = false) {
   containerMovements.innerHTML = "";
-  movements.forEach(function (mov, i) {
+
+  const movs = sort ? movements.slice().sort((a, b) => a - b) : movements;
+
+  movs.forEach(function (mov, i) {
     const type = mov > 0 ? "deposit" : "withdrawal";
 
     const html = `
@@ -217,6 +221,14 @@ btnClose.addEventListener("click", function (e) {
   //clear the input
   inputCloseUsername.value = "";
   inputClosePin.value = "";
+});
+
+//Sort button
+let sorted = false;
+btnSort.addEventListener("click", function (e) {
+  e.preventDefault();
+  displayMovements(currentAccount.movements, !sorted);
+  sorted = !sorted;
 });
 // console.log(containerMovements.innerHTML);
 
@@ -499,6 +511,7 @@ const account = accounts.find((acc) => acc.owner === "Jessica Davis");
 console.log(account);
 */
 ////////////////////////////////////////////////////////////////////////////////////////////// Some and every  ////////////////////
+/*
 // console.log(movements);
 // //Equality
 // console.log(movements.includes(-130));
@@ -514,3 +527,59 @@ console.log(account4.movements.every((mov) => mov > 0));
 //separate callback
 const deposit = (mov) => mov > 0;
 console.log(movements.some(deposit));
+*/
+////////////////////////////////////////////////////////////////////////////////////////////// Flat and flat map  //////////////////
+/*
+const arr = [[1, 2, 3], [4, 5, 6], 7, 8];
+console.log(arr.flat());
+
+const arrDeep = [[[1, 2], 3], [4, [5, 6]], 7, 8];
+console.log(arrDeep.flat(1));
+//flat
+const accountMovements = accounts
+  .map((acc) => acc.movements)
+  .flat()
+  .reduce((acc, mov) => acc + mov, 0);
+console.log(accountMovements);
+//flatMap
+const accountMovements2 = accounts
+  .flatMap((acc) => acc.movements)
+  .reduce((acc, mov) => acc + mov, 0);
+console.log(accountMovements2);
+*/
+////////////////////////////////////////////////////////////////////////////////////////////// Sorting arrays  //////////////////
+/*
+///////////////strings
+const owners = ["Jonas", "Lukas", "Zach", "Adam", "Martha"];
+console.log(owners.sort());
+
+/////////////numbers
+console.log(movements);
+
+// return < 0 ,a,b keep order
+//return > 0,b,a switch order
+
+//asscending order
+movements.sort((a, b) => {
+  if (a > b) {
+    return 1;
+  }
+  if (b > a) {
+    return -1;
+  }
+});
+console.log(movements);
+//descending order
+movements.sort((a, b) => {
+  if (a > b) {
+    return -1;
+  }
+  if (b > a) {
+    return 1;
+  }
+});
+console.log(movements);
+//simplyfiing number sorting
+movements.sort((a, b) => a - b);
+console.log(movements);
+*/
